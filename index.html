@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ishita — Tasteful Tech</title>
+<meta name="description" content="A small curation of products, objects and paintings that shape my eye for design." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ---------- Reset & tokens ---------- */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --cream:    #ece7d8;
+  --cream-2:  #e3e1d2;
+  --ink:      #1a241c;
+  --ink-soft: #2c3328;
+  --gold:     #a8855a;
+  --sage:     #95a08a;
+  --line:     rgba(26,36,28,.18);
+
+  --serif: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --pad-x: clamp(24px, 5vw, 80px);
+  --ease:  cubic-bezier(.2,.8,.2,1);
+}
+
+html { background: #d9d6c4; }
+body {
+  background: transparent;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--gold); color: #fff; }
+
+/* ---------- Background painting stack (CSS-only painterly fields) ---------- */
+.bg-stack {
+  position: fixed; inset: 0;
+  z-index: -2;
+  background: #c9c2ac;
+  overflow: hidden;
+}
+.bg-layer {
+  position: absolute; inset: -12%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(30px) saturate(1.15);
+  opacity: 0;
+  transform: scale(1.12);
+  transition: opacity 1.8s var(--ease), transform 10s var(--ease);
+  will-change: opacity, transform;
+}
+.bg-layer.active { opacity: 1; transform: scale(1.04); }
+
+/* Layer 0 — Monet water lilies: pond greens, lavender reflections, gold light */
+.bg-layer[data-layer="0"] {
+  background:
+    radial-gradient(ellipse 60% 50% at 25% 30%, #aebd9a 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 75% 25%, #d8c896 0%, transparent 55%),
+    radial-gradient(ellipse 70% 55% at 60% 75%, #6f8068 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 15% 80%, #b6a4c4 0%, transparent 60%),
+    radial-gradient(ellipse 45% 35% at 90% 80%, #c6a779 0%, transparent 55%),
+    linear-gradient(135deg, #98a585 0%, #c2b18d 100%);
+}
+
+/* Layer 1 — Sher-Gil earth: terracotta, ochre, deep umber */
+.bg-layer[data-layer="1"] {
+  background:
+    radial-gradient(ellipse 55% 50% at 30% 30%, #c08767 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 80% 35%, #d9a878 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 50% 80%, #7a4a35 0%, transparent 60%),
+    radial-gradient(ellipse 45% 40% at 15% 70%, #9b6a4a 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 90% 75%, #e2bc8b 0%, transparent 50%),
+    linear-gradient(135deg, #b48360 0%, #8a5a3f 100%);
+}
+
+/* Layer 2 — Ravi Varma drama: emerald, gold, peach */
+.bg-layer[data-layer="2"] {
+  background:
+    radial-gradient(ellipse 55% 45% at 25% 30%, #4f7a5e 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 80% 35%, #d4a868 0%, transparent 55%),
+    radial-gradient(ellipse 70% 55% at 50% 80%, #2e4a3d 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 80%, #e8b890 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 15% 70%, #c89060 0%, transparent 50%),
+    linear-gradient(135deg, #5a7864 0%, #8f6a45 100%);
+}
+
+/* Layer 3 — Monet sunrise: peach sky, slate water, soft gold */
+.bg-layer[data-layer="3"] {
+  background:
+    radial-gradient(ellipse 65% 50% at 30% 30%, #e8b89a 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 75% 25%, #d4a880 0%, transparent 55%),
+    radial-gradient(ellipse 70% 55% at 50% 80%, #6a7a86 0%, transparent 60%),
+    radial-gradient(ellipse 45% 40% at 90% 75%, #c8a884 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 15% 80%, #4f5e6a 0%, transparent 55%),
+    linear-gradient(160deg, #d4a890 0%, #8a98a4 100%);
+}
+
+/* Soft top-left wash so dark hero text stays readable; rest of page lets color through */
+.bg-stack::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 18% 22%, rgba(236,231,216,.55) 0%, rgba(236,231,216,.20) 45%, rgba(236,231,216,0) 75%);
+  pointer-events: none;
+  z-index: 2;
+}
+.bg-stack::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(236,231,216,.05) 0%, rgba(236,231,216,.12) 50%, rgba(236,231,216,.18) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+.grain {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  opacity: .28; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1, 0 0 0 0 .12, 0 0 0 0 .1, 0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ---------- Custom cursor ---------- */
+.cursor, .cursor-ring {
+  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform, width, height;
+}
+.cursor { width: 6px; height: 6px; background: var(--ink); transition: width .25s var(--ease), height .25s var(--ease), background .25s; }
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(26,36,28,.4);
+  transition: width .35s var(--ease), height .35s var(--ease), border-color .25s, background .25s;
+}
+.cursor.hover { width: 0; height: 0; }
+.cursor-ring.hover {
+  width: 84px; height: 84px;
+  border-color: transparent;
+  background: rgba(168,133,90,.18);
+  mix-blend-mode: multiply;
+}
+@media (hover: none), (max-width: 900px) {
+  .cursor, .cursor-ring { display: none; }
+  body { cursor: auto; }
+}
+@media (hover: hover) and (pointer: fine) {
+  body, a, button { cursor: none; }
+}
+
+/* ---------- Loader ---------- */
+.loader {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .8s var(--ease), visibility .8s;
+}
+.loader.gone { opacity: 0; visibility: hidden; }
+.loader-mark {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 28px;
+  letter-spacing: .02em;
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.loader-mark::after {
+  content: ''; position: absolute; left: 0; bottom: -4px;
+  width: 100%; height: 1px; background: var(--ink);
+  transform: scaleX(0); transform-origin: left;
+  animation: loadBar 1.4s var(--ease) forwards;
+}
+@keyframes loadBar { to { transform: scaleX(1); } }
+
+/* ---------- Nav ---------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px var(--pad-x);
+  z-index: 200;
+  font-size: 13px;
+  letter-spacing: .04em;
+  transition: background .4s var(--ease), backdrop-filter .4s var(--ease), border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(236,231,216,.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--line);
+}
+.logo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: .01em;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo::before {
+  content: ''; width: 28px; height: 1px; background: var(--ink); display: inline-block;
+}
+.nav-links { display: flex; align-items: center; gap: 36px; text-transform: lowercase; }
+.nav-links a { position: relative; padding: 6px 0; transition: color .2s; }
+.nav-links a:not(.nav-cta)::after {
+  content: ''; position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: right;
+  transition: transform .35s var(--ease);
+}
+.nav-links a:not(.nav-cta):hover::after { transform: scaleX(1); transform-origin: left; }
+.nav-cta {
+  border: 1px solid var(--ink);
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-transform: none;
+  font-size: 13px;
+  transition: background .3s, color .3s;
+}
+.nav-cta:hover { background: var(--ink); color: var(--cream); }
+@media (max-width: 720px) {
+  .nav-links { gap: 18px; }
+  .nav-links a:not(.nav-cta) { display: none; }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: 100vh;
+  padding: 0 var(--pad-x);
+  display: flex; align-items: center;
+  position: relative;
+}
+.hero-inner { width: 100%; max-width: 1400px; padding-top: 100px; padding-bottom: 80px; }
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(40px, 6vw, 92px);
+  line-height: 1;
+  letter-spacing: -.02em;
+  margin-bottom: 36px;
+  max-width: 16ch;
+}
+.hero h1 em {
+  font-style: italic;
+  color: #ffffff;
+  font-weight: 400;
+  font-variation-settings: "opsz" 144;
+}
+.hero h1 .line {
+  display: block;
+  overflow: hidden;
+}
+.hero h1 .line > span {
+  display: inline-block;
+  transform: translateY(115%);
+  animation: rise 1.3s var(--ease) forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes rise { to { transform: translateY(0); } }
+
+.hero-sub {
+  max-width: 44ch;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s var(--ease) forwards;
+  animation-delay: 1.4s;
+}
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+.scroll-cue {
+  position: absolute;
+  bottom: 36px; left: var(--pad-x);
+  font-size: 11px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: flex; align-items: center; gap: 14px;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease) forwards;
+  animation-delay: 1.8s;
+}
+.scroll-cue .line-down {
+  display: inline-block; width: 1px; height: 56px; background: currentColor;
+  position: relative; overflow: hidden;
+}
+.scroll-cue .line-down::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--cream); animation: drip 2.4s var(--ease) infinite;
+}
+@keyframes drip {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(100%); }
+}
+
+.hero-corner {
+  position: absolute;
+  top: 50%; right: var(--pad-x);
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: right center;
+  font-size: 11px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0;
+  animation: fadeUp 1s var(--ease) forwards;
+  animation-delay: 1.6s;
+}
+
+/* ---------- Sections ---------- */
+.section {
+  padding: clamp(80px, 14vh, 160px) var(--pad-x);
+  position: relative;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+
+.section-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 48px;
+  margin-bottom: 80px;
+  align-items: end;
+}
+.section-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: #ffffff;
+  align-self: start;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  min-width: 60px;
+}
+.section h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(36px, 5.6vw, 88px);
+  line-height: 1;
+  letter-spacing: -.02em;
+  max-width: 16ch;
+}
+.section h2 em {
+  font-style: italic;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+/* ---------- Quote interlude ---------- */
+.intro {
+  padding: clamp(120px, 22vh, 200px) var(--pad-x);
+  text-align: center;
+}
+.quote {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(24px, 3.2vw, 44px);
+  line-height: 1.3;
+  letter-spacing: -.01em;
+  max-width: 22ch;
+  margin: 0 auto;
+  color: var(--ink);
+}
+.quote::before, .quote::after { content: '“'; color: #ffffff; }
+.quote::after { content: '”'; }
+
+/* ---------- Digital products grid ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 32px 24px;
+}
+.card {
+  position: relative;
+  background: rgba(255,253,247,.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform .6s var(--ease), box-shadow .6s var(--ease), background .4s;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px -30px rgba(26,36,28,.25);
+  background: rgba(255,253,247,.85);
+}
+.card .card-image {
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #e0ddd0 0%, #cfcdc0 100%);
+}
+.card .card-image::after {
+  content: attr(data-fallback);
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-size: 28px;
+  color: var(--ink-soft);
+  z-index: 0;
+}
+.card .card-image img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  position: relative; z-index: 1;
+  transition: transform 1.2s var(--ease);
+}
+.card:hover .card-image img { transform: scale(1.04); }
+.card .card-meta { padding: 28px 28px 32px; }
+.card .tag {
+  display: inline-block;
+  font-size: 10.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.card h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 30px;
+  letter-spacing: -.01em;
+  margin-bottom: 10px;
+}
+.card p {
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.55;
+  margin-bottom: 22px;
+}
+.card .card-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 13px;
+  letter-spacing: .04em;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 4px;
+  transition: gap .3s var(--ease), color .3s;
+}
+.card:hover .card-link { gap: 16px; color: var(--gold); border-color: var(--gold); }
+
+/* layout for digital cards: large + smalls alternating */
+.card.size-lg { grid-column: span 7; }
+.card.size-md { grid-column: span 5; }
+.card.size-sm { grid-column: span 4; }
+@media (max-width: 900px) {
+  .card.size-lg, .card.size-md, .card.size-sm { grid-column: span 12; }
+}
+
+/* ---------- Physical products ---------- */
+.objects {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+@media (max-width: 720px) { .objects { grid-template-columns: 1fr; } }
+
+.object {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at center, rgba(255,253,247,.85) 0%, rgba(227,225,210,.6) 70%);
+}
+.object .obj-img {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 12%;
+}
+.object .obj-img img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 30px 40px rgba(26,36,28,.18));
+  transition: transform 1.2s var(--ease);
+}
+.object:hover .obj-img img { transform: scale(1.04) translateY(-6px); }
+.object .obj-label {
+  position: absolute;
+  left: 28px; bottom: 26px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.object .obj-label .num {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--gold);
+  font-size: 14px;
+}
+.object .obj-label .name {
+  font-family: var(--serif);
+  font-size: 24px;
+  letter-spacing: -.01em;
+}
+.object .obj-tag {
+  position: absolute;
+  right: 24px; top: 24px;
+  font-size: 10.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Paintings ---------- */
+.paintings-list {
+  display: block;
+}
+.painting {
+  display: block;
+  padding: 56px 0 64px;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+.painting:last-child { border-bottom: 1px solid var(--line); }
+.painting .p-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.painting .p-num {
+  font-family: var(--serif);
+  font-style: italic;
+  color: #ffffff;
+  font-size: 14px;
+  flex: 0 0 auto;
+}
+.painting .p-meta h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -.01em;
+}
+.painting .p-meta .artist {
+  font-size: 14px;
+  color: var(--ink-soft);
+  letter-spacing: .04em;
+  margin-left: auto;
+}
+.painting .p-img {
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  width: 100vw;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #cfcdc0;
+}
+.painting .p-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 1.8s var(--ease), filter 1s var(--ease);
+  filter: saturate(.95);
+}
+.painting:hover .p-img img { transform: scale(1.03); filter: saturate(1.05); }
+@media (max-width: 720px) {
+  .painting { padding: 36px 0 44px; }
+  .painting .p-meta { gap: 14px; margin-bottom: 22px; }
+  .painting .p-meta .artist { margin-left: 0; flex-basis: 100%; }
+  .painting .p-img { aspect-ratio: 4/3; }
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  padding: 80px var(--pad-x) 40px;
+  border-top: 1px solid var(--line);
+  margin-top: 80px;
+}
+.footer-grid {
+  max-width: 1400px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px;
+  align-items: end;
+  padding-bottom: 60px;
+}
+.footer-grid .big {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(40px, 6vw, 88px);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+.footer-grid .big a { border-bottom: 1px solid currentColor; padding-bottom: 6px; }
+.footer-col h4 {
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.footer-col a { display: block; padding: 4px 0; transition: color .2s, transform .3s var(--ease); }
+.footer-col a:hover { color: var(--gold); transform: translateX(4px); }
+.footer-bottom {
+  max-width: 1400px; margin: 0 auto;
+  padding-top: 30px; border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--ink-soft);
+  letter-spacing: .04em;
+}
+@media (max-width: 720px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 8px; }
+}
+
+/* ---------- Reveal animations ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+  transition-delay: var(--rd, 0s);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-img {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.4s var(--ease);
+  transition-delay: var(--rd, 0s);
+}
+.reveal-img.in { clip-path: inset(0 0 0 0); }
+
+/* respect motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal, .reveal-img { opacity: 1; transform: none; clip-path: inset(0); }
+  .hero h1 .line > span { transform: none; }
+  .hero-sub, .scroll-cue, .hero-corner { opacity: 1; transform: none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-mark">— ishita —</div>
+</div>
+
+<!-- Background painting stack (CSS-painted color fields, cross-fade on scroll) -->
+<div class="bg-stack" id="bgStack">
+  <div class="bg-layer active" data-layer="0"></div>
+  <div class="bg-layer" data-layer="1"></div>
+  <div class="bg-layer" data-layer="2"></div>
+  <div class="bg-layer" data-layer="3"></div>
+</div>
+<div class="grain"></div>
+
+<!-- Custom cursor -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor" id="cursor"></div>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="logo">ishita</div>
+  <div class="nav-links">
+    <a href="#digital" data-hover>digital</a>
+    <a href="#physical" data-hover>physical</a>
+    <a href="#paintings" data-hover>paintings</a>
+    <a href="mailto:ishitasoni577@gmail.com" class="nav-cta" data-hover>Get in touch →</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">A small curation</p>
+    <h1>
+      <span class="line"><span style="--d:.1s">I am Ishita,</span></span>
+      <span class="line"><span style="--d:.35s">an artist helping</span></span>
+      <span class="line"><span style="--d:.6s">make tech <em>tasteful</em>.</span></span>
+    </h1>
+    <p class="hero-sub">
+      A short collection of products, objects and paintings that
+      shape my eye for design, craft, and care — gathered here so the
+      thing I work on next gets to inherit a little of their grace.
+    </p>
+  </div>
+  <span class="scroll-cue"><span>scroll</span><span class="line-down"></span></span>
+  <span class="hero-corner">2026 — index №01</span>
+</header>
+
+<!-- Quote interlude -->
+<section class="intro section" data-bg="0">
+  <div class="container">
+    <p class="quote reveal">Taste is the silent argument an object makes for its right to exist.</p>
+  </div>
+</section>
+
+<!-- Digital products -->
+<section class="section" id="digital" data-bg="1">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-num reveal">01 — Digital</span>
+      <h2 class="reveal" style="--rd:.15s">Products that shaped <em>how I see software.</em></h2>
+    </header>
+
+    <div class="cards">
+
+      <article class="card size-lg reveal" data-hover>
+        <div class="card-image" data-fallback="Hims">
+          <img loading="lazy"
+               src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.hims.com%2F?w=1400"
+               alt="Hims homepage preview"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="card-meta">
+          <span class="tag">Healthcare · Brand</span>
+          <h3>Hims</h3>
+          <p>Best healthcare brand design I've seen — quietly confident, never clinical. The whole product feels like it was edited, not assembled.</p>
+          <a class="card-link" href="https://www.hims.com/" target="_blank" rel="noopener">hims.com<span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card size-md reveal" style="--rd:.1s" data-hover>
+        <div class="card-image" data-fallback="Revolut">
+          <img loading="lazy"
+               src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.revolut.com%2F?w=1200"
+               alt="Revolut homepage preview"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="card-meta">
+          <span class="tag">Finance · Product</span>
+          <h3>Revolut</h3>
+          <p>The cleanest finance app — restraint where every other app screams numbers at you.</p>
+          <a class="card-link" href="https://www.revolut.com/" target="_blank" rel="noopener">revolut.com<span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card size-sm reveal" data-hover>
+        <div class="card-image" data-fallback="Healthline">
+          <img loading="lazy"
+               src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.healthline.com%2F?w=1100"
+               alt="Healthline homepage preview"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="card-meta">
+          <span class="tag">Articles</span>
+          <h3>Healthline</h3>
+          <p>Health writing that respects the reader — calm typography, real evidence.</p>
+          <a class="card-link" href="https://www.healthline.com/" target="_blank" rel="noopener">healthline.com<span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card size-sm reveal" style="--rd:.1s" data-hover>
+        <div class="card-image" data-fallback="Medium">
+          <img loading="lazy"
+               src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fmedium.com%2F?w=1100"
+               alt="Medium homepage preview"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="card-meta">
+          <span class="tag">Articles</span>
+          <h3>Medium</h3>
+          <p>Reading as a craft — the closest the web gets to a well-set page.</p>
+          <a class="card-link" href="https://medium.com/" target="_blank" rel="noopener">medium.com<span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card size-sm reveal" style="--rd:.2s" data-hover>
+        <div class="card-image" data-fallback="Quabble">
+          <img loading="lazy"
+               src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fquabble.app%2F?w=1100"
+               alt="Quabble homepage preview"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="card-meta">
+          <span class="tag">Mental Wellness</span>
+          <h3>Quabble</h3>
+          <p>Wellness that doesn't lecture — soft, generous, character-led.</p>
+          <a class="card-link" href="https://quabble.app/" target="_blank" rel="noopener">quabble.app<span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card size-md reveal" data-hover>
+        <div class="card-image" data-fallback="cult.fit">
+          <img loading="lazy"
+               src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.cult.fit%2F?w=1200"
+               alt="cult.fit homepage preview"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="card-meta">
+          <span class="tag">Fitness</span>
+          <h3>cult.fit</h3>
+          <p>Fitness as a visual language — confident colour, motion that earns its place.</p>
+          <a class="card-link" href="https://www.cult.fit/" target="_blank" rel="noopener">cult.fit<span>↗</span></a>
+        </div>
+      </article>
+
+      <article class="card size-lg reveal" style="--rd:.1s" data-hover>
+        <div class="card-image" data-fallback="and more...">
+          <img loading="lazy"
+               src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1600&q=80"
+               alt="Studio desk"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="card-meta">
+          <span class="tag">Notebook</span>
+          <h3>An ongoing list</h3>
+          <p>The list grows the way taste does — slowly, by paying attention. New entries land here when something earns it.</p>
+          <a class="card-link" href="mailto:ishitasoni577@gmail.com">suggest something<span>↗</span></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Physical objects -->
+<section class="section" id="physical" data-bg="2">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-num reveal">02 — Physical</span>
+      <h2 class="reveal" style="--rd:.15s">Objects I keep returning to <em>in my head.</em></h2>
+    </header>
+
+    <div class="objects">
+
+      <figure class="object reveal" data-hover>
+        <span class="obj-tag">Compute</span>
+        <div class="obj-img">
+          <img loading="lazy"
+               src="https://images.unsplash.com/photo-1636298813354-00d8200924a2?auto=format&fit=crop&w=1200&q=80"
+               alt="Mac mini" onerror="this.style.opacity=.2">
+        </div>
+        <figcaption class="obj-label">
+          <span class="num">i.</span>
+          <span class="name">Mac mini</span>
+        </figcaption>
+      </figure>
+
+      <figure class="object reveal" style="--rd:.1s" data-hover>
+        <span class="obj-tag">Bird</span>
+        <div class="obj-img">
+          <img loading="lazy"
+               src="https://images.unsplash.com/photo-1531329746873-5d99a5996789?auto=format&fit=crop&w=1200&q=80"
+               alt="Toucan" onerror="this.style.opacity=.2">
+        </div>
+        <figcaption class="obj-label">
+          <span class="num">ii.</span>
+          <span class="name">The Toucan</span>
+        </figcaption>
+      </figure>
+
+      <figure class="object reveal" data-hover>
+        <span class="obj-tag">Telephone</span>
+        <div class="obj-img">
+          <img loading="lazy"
+               src="https://upload.wikimedia.org/wikipedia/commons/9/95/SoftBank_108SH_pink_urgent_news.jpg"
+               alt="Sharp AQUOS Keitai"
+               onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/1/10/AQUOS%E3%82%B1%E3%83%BC%E3%82%BF%E3%82%A4_%2832678824744%29.jpg'">
+        </div>
+        <figcaption class="obj-label">
+          <span class="num">iii.</span>
+          <span class="name">Sharp AQUOS Keitai</span>
+        </figcaption>
+      </figure>
+
+      <figure class="object reveal" style="--rd:.1s" data-hover>
+        <span class="obj-tag">Table</span>
+        <div class="obj-img">
+          <img loading="lazy"
+               src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=1200&q=80"
+               alt="Mediterranean salad bowl" onerror="this.style.opacity=.2">
+        </div>
+        <figcaption class="obj-label">
+          <span class="num">iv.</span>
+          <span class="name">A Mediterranean bowl</span>
+        </figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<!-- Paintings -->
+<section class="section" id="paintings" data-bg="3">
+  <div class="container">
+    <header class="section-head">
+      <span class="section-num reveal">03 — Paintings</span>
+      <h2 class="reveal" style="--rd:.15s">The four behind <em>everything you've scrolled past.</em></h2>
+    </header>
+
+    <div class="paintings-list">
+
+      <article class="painting reveal" data-hover>
+        <span class="p-num">№ 01</span>
+        <div class="p-meta">
+          <h3>Water Lilies</h3>
+          <span class="artist">Claude Monet · 1916</span>
+        </div>
+        <div class="p-img">
+          <img loading="lazy"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Claude_monet%2C_ninfee%2C_1916.JPG/1280px-Claude_monet%2C_ninfee%2C_1916.JPG"
+               alt="Monet — Water Lilies, 1916">
+        </div>
+      </article>
+
+      <article class="painting reveal" data-hover>
+        <span class="p-num">№ 02</span>
+        <div class="p-meta">
+          <h3>Group of Three Girls</h3>
+          <span class="artist">Amrita Sher-Gil · 1935</span>
+        </div>
+        <div class="p-img">
+          <img loading="lazy"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Amrita_Sher-Gil_Group_of_Three_Girls.jpg/960px-Amrita_Sher-Gil_Group_of_Three_Girls.jpg"
+               alt="Amrita Sher-Gil — Group of Three Girls">
+        </div>
+      </article>
+
+      <article class="painting reveal" data-hover>
+        <span class="p-num">№ 03</span>
+        <div class="p-meta">
+          <h3>Damayanti and the Royal Swan</h3>
+          <span class="artist">Raja Ravi Varma · 1899</span>
+        </div>
+        <div class="p-img">
+          <img loading="lazy"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Ravi_Varma-Princess_Damayanthi_talking_with_Royal_Swan_about_Nala.jpg/1280px-Ravi_Varma-Princess_Damayanthi_talking_with_Royal_Swan_about_Nala.jpg"
+               alt="Raja Ravi Varma — Damayanti and the Royal Swan">
+        </div>
+      </article>
+
+      <article class="painting reveal" data-hover>
+        <span class="p-num">№ 04</span>
+        <div class="p-meta">
+          <h3>Impression, Sunrise</h3>
+          <span class="artist">Claude Monet · 1872</span>
+        </div>
+        <div class="p-img">
+          <img loading="lazy"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg"
+               alt="Monet — Impression, Sunrise">
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" data-bg="0">
+  <div class="footer-grid">
+    <div class="big reveal">
+      Have a project that <em>deserves</em> taste?<br>
+      <a href="mailto:ishitasoni577@gmail.com" data-hover>say hello →</a>
+    </div>
+    <div class="footer-col">
+      <h4>Sections</h4>
+      <a href="#digital">Digital</a>
+      <a href="#physical">Physical</a>
+      <a href="#paintings">Paintings</a>
+    </div>
+    <div class="footer-col">
+      <h4>Elsewhere</h4>
+      <a href="#" data-hover>Are.na</a>
+      <a href="#" data-hover>Read.cv</a>
+      <a href="#" data-hover>Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 — Ishita. A small index of taste.</span>
+    <span>Built quietly · Set in Fraunces &amp; Inter</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- Loader ---------- */
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('gone'), 600);
+});
+
+/* ---------- Custom cursor ---------- */
+(function () {
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  if (!cursor || !ring) return;
+  let x = innerWidth / 2, y = innerHeight / 2;
+  let rx = x, ry = y;
+  document.addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; });
+  function tick() {
+    rx += (x - rx) * 0.18;
+    ry += (y - ry) * 0.18;
+    cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+    ring.style.transform   = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+  document.querySelectorAll('[data-hover], a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+  });
+})();
+
+/* ---------- Sticky nav ---------- */
+(function () {
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+/* ---------- Reveal on scroll ---------- */
+(function () {
+  const els = document.querySelectorAll('.reveal, .reveal-img');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('in')); return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(el => io.observe(el));
+})();
+
+/* ---------- Background painting cross-fade ---------- */
+(function () {
+  const sections = document.querySelectorAll('[data-bg]');
+  const layers   = document.querySelectorAll('.bg-layer');
+  if (!sections.length || !layers.length) return;
+  const setActive = (idx) => {
+    layers.forEach(l => l.classList.toggle('active', Number(l.dataset.layer) === idx));
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = Number(e.target.dataset.bg);
+        if (!Number.isNaN(idx)) setActive(idx);
+      }
+    });
+  }, { threshold: 0.45 });
+  sections.forEach(s => io.observe(s));
+})();
+
+/* ---------- mShots retry: first hit returns a placeholder ---------- */
+(function () {
+  document.querySelectorAll('img[src*="mshots/v1"]').forEach((img) => {
+    let attempts = 0;
+    const retry = () => {
+      if (attempts++ >= 3) return;
+      if (img.naturalWidth > 200) return;
+      const u = new URL(img.src);
+      u.searchParams.set('_r', String(Date.now()));
+      img.src = u.toString();
+      setTimeout(retry, 3000 + attempts * 1500);
+    };
+    setTimeout(retry, 3500);
+  });
+})();
+
+/* ---------- Subtle parallax on hero text ---------- */
+(function () {
+  const hero = document.querySelector('.hero-inner');
+  if (!hero) return;
+  let frame;
+  document.addEventListener('scroll', () => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      const y = window.scrollY;
+      if (y < window.innerHeight) {
+        hero.style.transform = `translateY(${y * 0.18}px)`;
+        hero.style.opacity = String(1 - y / window.innerHeight * 1.1);
+      }
+      frame = null;
+    });
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
